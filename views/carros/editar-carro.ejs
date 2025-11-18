@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Carro - Sistema de Carros</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <header>
+        <nav class="menu">
+            <a href="/">Home</a>
+            <a href="/Projects.html">Projetos</a>
+            <a href="/carros">Carros</a>
+            <a href="/carros/gestao">Gestão</a>
+            <a href="/carros/editar/<%= carro._id %>" class="press">Editar Carro</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>EDITAR CARRO</h1>
+        
+        <div class="form-container">
+            <% if (typeof erro !== 'undefined') { %>
+                <div class="erro-mensagem">
+                    ❌ <%= erro %>
+                </div>
+            <% } %>
+
+            <form action="/carros/editar/<%= carro._id %>" method="POST">
+                <div class="form-group">
+                    <label for="marca">Marca:</label>
+                    <input type="text" id="marca" name="marca" required 
+                           value="<%= carro.marca %>"
+                           placeholder="Ex: Toyota, Honda, Ford...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="modelo">Modelo:</label>
+                    <input type="text" id="modelo" name="modelo" required 
+                           value="<%= carro.modelo %>"
+                           placeholder="Ex: Corolla, Civic, Fiesta...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="ano">Ano:</label>
+                    <input type="number" id="ano" name="ano" required 
+                           value="<%= carro.ano %>"
+                           min="1900" max="2030"
+                           placeholder="Ex: 2023">
+                </div>
+                
+                <div class="form-group">
+                    <label for="qtde_disponivel">Quantidade Disponível:</label>
+                    <input type="number" id="qtde_disponivel" name="qtde_disponivel" required 
+                           value="<%= carro.qtde_disponivel %>"
+                           min="0"
+                           placeholder="Ex: 5">
+                    <% if (carro.qtde_disponivel <= 0) { %>
+                        <div style="color: #ff4444; font-size: 0.9rem; margin-top: 5px;">
+                            ⚠️ Este carro está marcado como ESGOTADO
+                        </div>
+                    <% } %>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Atualizar Carro</button>
+                    <a href="/carros/gestao" class="btn-cancel">Cancelar</a>
+                </div>
+            </form>
+
+            <div style="margin-top: 30px; padding: 15px; background: rgba(255, 255, 255, 0.02); border-radius: 5px;">
+                <h3 style="color: #6ab7ff; margin-bottom: 10px;">Informações do Carro</h3>
+                <p><strong>ID:</strong> <code><%= carro._id %></code></p>
+                <p><strong>Status:</strong> 
+                    <span style="color: <%= carro.qtde_disponivel > 0 ? '#44ff44' : '#ff4444' %>">
+                        <%= carro.qtde_disponivel > 0 ? 'DISPONÍVEL' : 'ESGOTADO' %>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Aluno FEI — 2025 | Sistema de Gerenciamento de Carros</p>
+    </footer>
+
+    <script>
+        // Validação do ano
+        document.getElementById('ano').addEventListener('input', function() {
+            const ano = parseInt(this.value);
+            const anoAtual = new Date().getFullYear();
+            
+            if (ano < 1900 || ano > anoAtual + 2) {
+                this.style.borderColor = '#ff4444';
+            } else {
+                this.style.borderColor = '';
+            }
+        });
+
+        // Validação da quantidade
+        document.getElementById('qtde_disponivel').addEventListener('input', function() {
+            const qtde = parseInt(this.value);
+            
+            if (qtde < 0) {
+                this.style.borderColor = '#ff4444';
+            } else {
+                this.style.borderColor = '';
+            }
+        });
+
+        // Focar no primeiro campo
+        document.getElementById('marca').focus();
+
+        // Mostrar alerta se quantidade for zero
+        const qtdeInput = document.getElementById('qtde_disponivel');
+        qtdeInput.addEventListener('change', function() {
+            if (parseInt(this.value) === 0) {
+                if (!confirm('Ao definir quantidade como 0, este carro será marcado como ESGOTADO. Continuar?')) {
+                    this.value = 1;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

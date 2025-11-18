@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= titulo %> - Sistema de Carros</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <nav class="menu">
+            <a href="/">Home</a>
+            <a href="/Projects.html">Projetos</a>
+            <a href="/carros" class="press">Carros</a>
+            <a href="/carros/login">Gestão</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1><%= titulo %></h1>
+        
+        <% if (typeof erro !== 'undefined') { %>
+            <div class="erro-mensagem" style="max-width: 800px; margin: 20px auto;">
+                ❌ <%= erro %>
+            </div>
+        <% } %>
+
+        <div class="blog-container">
+            <div class="posts-container">
+                <% if (carros && carros.length > 0) { %>
+                    <div class="status-info" style="max-width: 800px;">
+                        🚗 Total de carros disponíveis: <strong><%= carros.length %></strong>
+                    </div>
+                    
+                    <% carros.forEach(function(carro) { %>
+                        <div class="post-card" style="max-width: 800px;">
+                            <h2 class="post-titulo">
+                                <%= carro.marca %> <%= carro.modelo %>
+                                <% if (carro.qtde_disponivel <= 0) { %>
+                                    <span style="color: #ff4444; font-size: 0.8em; margin-left: 10px;">[ESGOTADO]</span>
+                                <% } %>
+                            </h2>
+                            
+                            <div class="post-conteudo">
+                                <p><strong>Ano:</strong> <%= carro.ano %></p>
+                                <p><strong>Quantidade Disponível:</strong> 
+                                    <span style="color: <%= carro.qtde_disponivel > 0 ? '#44ff44' : '#ff4444' %>">
+                                        <%= carro.qtde_disponivel %>
+                                    </span>
+                                </p>
+                            </div>
+                            
+                            <div class="post-data">
+                                📊 ID: <%= carro._id %>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="sem-posts" style="max-width: 800px;">
+                        <h3>🚗 Nenhum carro cadastrado</h3>
+                        <p>Ainda não há carros disponíveis no sistema.</p>
+                        <a href="/carros/login" class="btn-novo-post" style="margin-top: 15px;">
+                            🔧 Acessar Gestão
+                        </a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Aluno FEI — 2025 | Sistema de Gerenciamento de Carros</p>
+    </footer>
+</body>
+</html>

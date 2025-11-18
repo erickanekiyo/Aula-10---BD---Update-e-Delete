@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema de Carros</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <nav class="menu">
+            <a href="/">Home</a>
+            <a href="/Projects.html">Projetos</a>
+            <a href="/carros">Carros</a>
+            <a href="/carros/login" class="press">Gestão</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>ACESSAR GESTÃO</h1>
+        
+        <div class="form-container">
+            <% if (erro) { %>
+                <div class="erro-mensagem">
+                    ❌ <%= erro %>
+                </div>
+            <% } %>
+
+            <form action="/carros/login" method="POST">
+                <div class="form-group">
+                    <label for="login">Login:</label>
+                    <input type="text" id="login" name="login" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="senha" name="senha" required>
+                </div>
+                
+                <button type="submit" class="btn-submit">Entrar</button>
+            </form>
+            
+            <div class="links">
+                <p>Não tem acesso? <a href="/carros/cadastrar-usuario">Cadastrar Usuário</a></p>
+                <p><a href="/carros">← Voltar para Lista de Carros</a></p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Aluno FEI — 2025</p>
+    </footer>
+</body>
+</html>

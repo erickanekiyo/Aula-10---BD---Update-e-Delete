@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Usuário - Sistema de Carros</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <nav class="menu">
+            <a href="/">Home</a>
+            <a href="/Projects.html">Projetos</a>
+            <a href="/carros">Carros</a>
+            <a href="/carros/login">Gestão</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>CADASTRAR USUÁRIO</h1>
+        
+        <div class="form-container">
+            <% if (erro) { %>
+                <div class="erro-mensagem">
+                    ❌ <%= erro %>
+                </div>
+            <% } %>
+            
+            <% if (sucesso) { %>
+                <div class="status-info">
+                    ✅ <%= sucesso %>
+                </div>
+            <% } %>
+
+            <form action="/carros/cadastrar-usuario" method="POST">
+                <div class="form-group">
+                    <label for="nome">Nome Completo:</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="login">Login:</label>
+                    <input type="text" id="login" name="login" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="senha" name="senha" required>
+                </div>
+                
+                <button type="submit" class="btn-submit">Cadastrar Usuário</button>
+            </form>
+            
+            <div class="links">
+                <p><a href="/carros/login">← Voltar para Login</a></p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Aluno FEI — 2025</p>
+    </footer>
+</body>
+</html>

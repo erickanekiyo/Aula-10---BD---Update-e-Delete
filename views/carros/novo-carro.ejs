@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Carro - Sistema de Carros</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <header>
+        <nav class="menu">
+            <a href="/">Home</a>
+            <a href="/Projects.html">Projetos</a>
+            <a href="/carros">Carros</a>
+            <a href="/carros/gestao">Gestão</a>
+            <a href="/carros/novo" class="press">Novo Carro</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>CADASTRAR NOVO CARRO</h1>
+        
+        <div class="form-container">
+            <% if (typeof erro !== 'undefined') { %>
+                <div class="erro-mensagem">
+                    ❌ <%= erro %>
+                </div>
+            <% } %>
+
+            <form action="/carros/novo" method="POST">
+                <div class="form-group">
+                    <label for="marca">Marca:</label>
+                    <input type="text" id="marca" name="marca" required 
+                           placeholder="Ex: Toyota, Honda, Ford...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="modelo">Modelo:</label>
+                    <input type="text" id="modelo" name="modelo" required 
+                           placeholder="Ex: Corolla, Civic, Fiesta...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="ano">Ano:</label>
+                    <input type="number" id="ano" name="ano" required 
+                           min="1900" max="2030"
+                           placeholder="Ex: 2023">
+                </div>
+                
+                <div class="form-group">
+                    <label for="qtde_disponivel">Quantidade Disponível:</label>
+                    <input type="number" id="qtde_disponivel" name="qtde_disponivel" required 
+                           min="0"
+                           placeholder="Ex: 5">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Cadastrar Carro</button>
+                    <a href="/carros/gestao" class="btn-cancel">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>Aluno FEI — 2025 | Sistema de Gerenciamento de Carros</p>
+    </footer>
+
+    <script>
+        // Validação do ano
+        document.getElementById('ano').addEventListener('input', function() {
+            const ano = parseInt(this.value);
+            const anoAtual = new Date().getFullYear();
+            
+            if (ano < 1900 || ano > anoAtual + 2) {
+                this.style.borderColor = '#ff4444';
+            } else {
+                this.style.borderColor = '';
+            }
+        });
+
+        // Validação da quantidade
+        document.getElementById('qtde_disponivel').addEventListener('input', function() {
+            const qtde = parseInt(this.value);
+            
+            if (qtde < 0) {
+                this.style.borderColor = '#ff4444';
+            } else {
+                this.style.borderColor = '';
+            }
+        });
+
+        // Focar no primeiro campo
+        document.getElementById('marca').focus();
+    </script>
+</body>
+</html>

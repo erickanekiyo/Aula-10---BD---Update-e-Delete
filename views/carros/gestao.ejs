@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Carros</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <nav class="menu">
+            <a href="/">Home</a>
+            <a href="/Projects.html">Projetos</a>
+            <a href="/carros">Carros</a>
+            <a href="/carros/gestao" class="press">Gestão</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="blog-container">
+            <div class="blog-header">
+                <h1>GESTÃO DE CARROS</h1>
+                <a href="/carros/novo" class="btn-novo-post">+ Novo Carro</a>
+            </div>
+
+            <% if (typeof erro !== 'undefined') { %>
+                <div class="erro-mensagem">
+                    ❌ <%= erro %>
+                </div>
+            <% } %>
+
+            <% if (typeof sucesso !== 'undefined') { %>
+                <div class="status-info">
+                    ✅ <%= sucesso %>
+                </div>
+            <% } %>
+
+            <div class="posts-container">
+                <% if (carros && carros.length > 0) { %>
+                    <div class="status-info">
+                        📊 Total de carros: <strong><%= carros.length %></strong>
+                    </div>
+                    
+                    <% carros.forEach(function(carro) { %>
+                        <div class="post-card">
+                            <h2 class="post-titulo">
+                                <%= carro.marca %> <%= carro.modelo %>
+                                <% if (carro.qtde_disponivel <= 0) { %>
+                                    <span style="color: #ff4444; font-size: 0.8em; margin-left: 10px;">[ESGOTADO]</span>
+                                <% } %>
+                            </h2>
+                            
+                            <div class="post-conteudo">
+                                <p><strong>Ano:</strong> <%= carro.ano %></p>
+                                <p><strong>Quantidade Disponível:</strong> 
+                                    <span style="color: <%= carro.qtde_disponivel > 0 ? '#44ff44' : '#ff4444' %>">
+                                        <%= carro.qtde_disponivel %>
+                                    </span>
+                                </p>
+                            </div>
+                            
+                            <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                                <form action="/carros/vender/<%= carro._id %>" method="POST" style="display: inline;">
+                                    <button type="submit" 
+                                            class="btn-submit" 
+                                            style="padding: 8px 15px; font-size: 0.9rem;"
+                                            <%= carro.qtde_disponivel <= 0 ? 'disabled' : '' %>>
+                                        🚗 Vender
+                                    </button>
+                                </form>
+                                
+                                <a href="/carros/editar/<%= carro._id %>" 
+                                   class="btn-cancel" 
+                                   style="padding: 8px 15px; font-size: 0.9rem;">
+                                    ✏️ Editar
+                                </a>
+                                
+                                <form action="/carros/remover/<%= carro._id %>" method="POST" style="display: inline;">
+                                    <button type="submit" 
+                                            class="btn-cancel" 
+                                            style="padding: 8px 15px; font-size: 0.9rem; background: rgba(255, 68, 68, 0.2); color: #ff6b6b; border-color: rgba(255, 68, 68, 0.3);"
+                                            onclick="return confirm('Tem certeza que deseja remover este carro?')">
+                                        🗑️ Remover
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="sem-posts">
+                        <h3>🚗 Nenhum carro cadastrado</h3>
+                        <p>Comece cadastrando o primeiro carro no sistema.</p>
+                        <a href="/carros/novo" class="btn-novo-post" style="margin-top: 15px;">
+                            + Cadastrar Primeiro Carro
+                        </a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Aluno FEI — 2025 | Sistema de Gerenciamento de Carros</p>
+    </footer>
+</body>
+</html>
