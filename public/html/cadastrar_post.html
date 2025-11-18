@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Post - Blog</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <header>
+        <nav class="menu">
+            <a href="/">Home</a>
+            <a href="/Projects.html">Projetos</a>
+            <a href="/blog">Blog</a>
+            <a href="/cadastrar_post" class="press">Novo Post</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>CRIAR NOVO POST</h1>
+        
+        <div class="form-container">
+            <form action="/cadastrar-post" method="POST">
+                <div class="form-group">
+                    <label for="titulo">Título:</label>
+                    <input type="text" id="titulo" name="titulo" required 
+                           placeholder="Digite o título do post...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="resumo">Resumo:</label>
+                    <textarea id="resumo" name="resumo" required 
+                              placeholder="Digite um resumo breve do post..."></textarea>
+                    <div class="char-count" id="resumo-count">0 caracteres</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="conteudo">Conteúdo:</label>
+                    <textarea id="conteudo" name="conteudo" required 
+                              placeholder="Digite o conteúdo completo do post..."></textarea>
+                    <div class="char-count" id="conteudo-count">0 caracteres</div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Publicar Post</button>
+                    <a href="/blog" class="btn-cancel">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>Aluno FEI — 2025</p>
+    </footer>
+
+    <script>
+        // Contador de caracteres
+        document.getElementById('resumo').addEventListener('input', function() {
+            document.getElementById('resumo-count').textContent = this.value.length + ' caracteres';
+        });
+
+        document.getElementById('conteudo').addEventListener('input', function() {
+            document.getElementById('conteudo-count').textContent = this.value.length + ' caracteres';
+        });
+
+        // Inicializar contadores
+        document.getElementById('resumo-count').textContent = 
+            document.getElementById('resumo').value.length + ' caracteres';
+        document.getElementById('conteudo-count').textContent = 
+            document.getElementById('conteudo').value.length + ' caracteres';
+    </script>
+</body>
+</html>

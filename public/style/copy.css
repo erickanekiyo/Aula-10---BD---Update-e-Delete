@@ -1,0 +1,161 @@
+body {
+    background-color: #dddddd;
+    font-family: 'Sans-Serif';
+    margin: 0;
+    padding: 0;
+}
+
+/*Head*/
+header {
+    background-color: #ffe5cc;
+    text-align: center;
+    padding: 40px;
+    border: 2px solid blue;
+    position: relative;
+}
+
+header h1 {
+    color: #228b22;
+    font-size: 30px;
+    font-family: 'Georgia', serif;
+}
+
+.logo_C {
+    position: absolute;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 120px;
+}
+
+.logo_Java {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 120px;
+}
+
+/*Menu*/
+nav {
+    background-color: #99c7f0;
+    text-align: center;
+    padding: 10px 0;
+}
+
+nav a {
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0 40px;
+    font-size: 16px;
+    color: rgb(99, 35, 172);
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/*Body*/
+main {
+    text-align: center;
+    padding: 20px;
+}
+
+.initText h2, .video h2, .contato h2 {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.initText p {
+    font-size: 20px;
+    text-align: center;
+    width: 80%;
+    margin: 10px auto;
+    color: rgb(99, 35, 172);
+}
+
+/*Livro*/
+.livros_container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+
+.livros_container img {
+    width: 180px;
+    height: 230px;
+    object-fit: cover;
+}
+
+/*Video e Mapa*/
+.video_mapa {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
+    margin-bottom: 80px;
+    flex-wrap: wrap;
+}
+
+/*Contatos*/
+table {
+    margin: 20px auto;
+    border-collapse: separate;
+    border-spacing: 2px; 
+    border: 2px dashed red;
+}
+
+tr, th, td {
+    border: 1px solid red;
+    padding: 8px 20px;
+    margin: 3px;
+    text-align: center;
+}
+
+th {
+    color: red;
+}
+
+/*Links*/
+.tabela_links {
+    background-color: yellow;
+    display: inline-block;
+    padding: 3px 30px;
+    margin-top: 10px;
+    text-align: left;
+}
+
+.tabela_links ul {
+    list-style-type: square;
+    text-align: left;
+}
+
+.tabela_links a {
+    color: rgb(114, 0, 0);
+}
+
+/*Rodape*/
+footer {
+    background-color: #ffe5cc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+    margin-top: 5px;
+    font-family: 'Comic Sans MS';
+    font-size: 15pt;
+}
+
+.logo_HTML {
+    width: 80px;
+    height: 80px;
+}
+
+.logo_CSS {
+    width: 60px;
+    height: 80px;
+    margin-right: 10px;
+}

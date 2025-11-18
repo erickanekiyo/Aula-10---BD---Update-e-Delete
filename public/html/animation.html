@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animação</title>
+    <link rel="stylesheet" href="/public/style/style.css">
+</head>
+<body>
+    <header>
+        <nav class="menu">
+            <a href="/">Home</a>
+            <a href="/Projects.html">Projetos</a>
+            <a href="/Animation.html" class="press">Animação</a>
+        </nav>
+    </header>
+
+    <main class="animation-container">
+        <h1>Animação</h1>
+        <br>
+        <div class="initText">
+            <h2>Como funciona:</h2>
+            <br>
+            <ul>
+                <li>Mova o mouse para controlar a imagem no canvas</li>
+                <li>O ponteiro do mouse fica centralizado na imagem</li>
+                <li>A imagem nunca sai do canvas, mesmo se o mouse sair</li>
+                <li>Experimente os diferentes modos de animação</li>
+            </ul>
+        </div>
+
+        <div class="animation-area" id="animation-area">
+            <img id="animated-image" src="/img/Navi.png" alt="ImagemAnimada">
+        </div>
+    </main>
+</body>
+
+    <script>
+        // Elementos da página
+        const animationArea = document.getElementById('animation-area');
+        const animatedImage = document.getElementById('animated-image');
+        
+        // Configurações
+        const imgWidth = 50;
+        const imgHeight = 50;
+        let particles = [];
+        
+        // Posição inicial da imagem (centro)
+        let imgX = animationArea.offsetWidth / 2;
+        let imgY = animationArea.offsetHeight / 2;
+        
+        // Atualizar posição inicial da imagem
+        updateImagePosition(imgX, imgY);
+        
+        // Função para atualizar a posição da imagem
+        function updateImagePosition(x, y) {
+            // Garantir que a imagem não saia do quadro
+            const boundedX = Math.max(imgWidth/2, Math.min(animationArea.offsetWidth - imgWidth/2, x));
+            const boundedY = Math.max(imgHeight/2, Math.min(animationArea.offsetHeight - imgHeight/2, y));
+            
+            // Atualizar posição da imagem
+            animatedImage.style.left = `${boundedX - imgWidth/2}px`;
+            animatedImage.style.top = `${boundedY - imgHeight/2}px`;
+            
+            // Criar partículas
+            createParticles(boundedX, boundedY);
+            
+            return {x: boundedX, y: boundedY};
+        }
+        
+        // Função para criar partículas
+        function createParticles(x, y) {
+            // Criar 2-4 partículas por movimento
+            const count = Math.floor(Math.random() * 3) + 2;
+            
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Tamanho e cor aleatórios
+                const size = Math.random() * 5 + 2;
+                const colors = ['#6ab7ff', '#4a9eff', '#8ac6ff', '#a8d8ff'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.backgroundColor = color;
+                
+                // Posição inicial (ao redor da imagem)
+                const offsetX = (Math.random() - 0.5) * 30;
+                const offsetY = (Math.random() - 0.5) * 30;
+                
+                particle.style.left = `${x + offsetX}px`;
+                particle.style.top = `${y + offsetY}px`;
+                
+                // Adicionar ao container
+                animationArea.appendChild(particle);
+                
+                // Armazenar referência para animação
+                particles.push({
+                    element: particle,
+                    x: x + offsetX,
+                    y: y + offsetY,
+                    size: size,
+                    speedX: (Math.random() - 0.5) * 4,
+                    speedY: (Math.random() - 0.5) * 4,
+                    life: 30
+                });
+            }
+        }
+        
+        // Função para atualizar partículas
+        function updateParticles() {
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                
+                // Atualizar posição
+                p.x += p.speedX;
+                p.y += p.speedY;
+                p.life--;
+                
+                // Atualizar elemento
+                p.element.style.left = `${p.x}px`;
+                p.element.style.top = `${p.y}px`;
+                p.element.style.opacity = p.life / 30;
+                
+                // Remover partículas que "morreram"
+                if (p.life <= 0 || 
+                    p.x < -10 || p.x > animationArea.offsetWidth + 10 ||
+                    p.y < -10 || p.y > animationArea.offsetHeight + 10) {
+                    p.element.remove();
+                    particles.splice(i, 1);
+                }
+            }
+        }
+        
+        //Evento de movimento do mouse dentro do quadro
+        animationArea.addEventListener('mousemove', (e) => {
+            const rect = animationArea.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            
+            const newPos = updateImagePosition(mouseX, mouseY);
+            imgX = newPos.x;
+            imgY = newPos.y;
+        });
+        
+        
+        //Loop de animação para partículas
+        function animate() {
+            updateParticles();
+            requestAnimationFrame(animate);
+        }
+        
+        //Iniciar animação
+        animate();
+        
+        //Atualizar posição quando a janela for redimensionada
+        window.addEventListener('resize', () => {
+            const newPos = updateImagePosition(imgX, imgY);
+            imgX = newPos.x;
+            imgY = newPos.y;
+        });
+    </script>
+</body>
+</html>

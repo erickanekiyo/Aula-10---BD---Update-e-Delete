@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <nav class="menu">
+            <a href="/Home.html">Home</a>
+            <a href="/Projects.html">Projetos</a>
+            <a href="/cadastra">Cadastro</a>
+            <a href="/login" class="press">Login</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>LOGIN</h1>
+        
+        <div class="form-container">
+            <form action="/logar" method="POST">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="senha" name="senha" required>
+                </div>
+                
+                <button type="submit" class="btn-submit">Entrar</button>
+            </form>
+            
+            <div class="links">
+                <p>Não tem uma conta? <a href="/cadastra">Cadastre-se</a></p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Aluno FEI — 2025</p>
+    </footer>
+</body>
+</html>

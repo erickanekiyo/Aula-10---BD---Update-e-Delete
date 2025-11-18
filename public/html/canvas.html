@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinhação</title>
+    <link rel="stylesheet" href="/public/style/style.css">
+</head>
+
+<body>
+    <header>
+        <nav class="menu">
+            <a href="../html/index.html">Home</a>
+            <a href="../html/projects.html">Projetos</a>
+        </nav>
+    </header>
+
+    <h1>Canvas</h1>
+    
+    <main class="canvas-container">
+        <canvas id="TelaCanvas" width="300" height="300"></canvas>
+    </main>
+
+    <h1>Casa</h1>
+
+    <main class="canvas-container">
+        <canvas id="TelaCanvas2" width="300" height="300"></canvas>
+    </main>
+
+    <script>
+        const c = document.getElementById("TelaCanvas");
+        const c2 = document.getElementById("TelaCanvas2");
+        const ctx1 = c.getContext("2d");
+        const ctx2 = c2.getContext("2d");
+
+        /*Funções construtoras*/
+        function draw_quadrado(ctx, x, y, tamanho, cor) {
+            ctx.fillStyle = cor;
+            ctx.fillRect(x, y, tamanho, tamanho);
+        }
+
+        function draw_linha(ctx, x1, y1, x2, y2, cor, grossura = 1) {
+            ctx.strokeStyle = cor;
+            ctx.lineWidth = grossura;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+        }
+
+        function draw_arco(ctx, x, y, raio, inicio, fim, cor, preenchimento = false) {
+            ctx.beginPath();
+            ctx.arc(x, y, raio, inicio, fim);
+            if (preenchimento) {
+                ctx.fillStyle = cor;
+                ctx.fill();
+            } else {
+                ctx.strokeStyle = cor;
+                ctx.stroke();
+            }
+        }
+
+        function draw_triangulo(ctx, x1, y1, x2, y2, x3, y3, color) {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.lineTo(x3, y3);
+            ctx.closePath();
+            ctx.fillStyle = color;
+            ctx.fill();
+        }
+
+        function write(ctx, texto, x, y, cor, tamanho = "16px") {
+            ctx.fillStyle = cor;
+            ctx.font = `${tamanho} Arial`;
+            ctx.fillText(texto, x, y);
+        }
+
+        //Desenho
+        function draw_figura1() {
+            draw_quadrado(ctx1, 0, 0, 600, "white");
+            draw_quadrado(ctx1, 0, 0, 52.5, "blue");
+            draw_quadrado(ctx1, 247.5, 0, 52.5, "red");
+            draw_quadrado(ctx1, 0, 240, 30, "yellow");
+            draw_quadrado(ctx1, 0, 270, 60, "yellow");
+            draw_quadrado(ctx1, 270, 240, 30, "black");
+            draw_quadrado(ctx1, 240, 270, 60, "black");
+            draw_quadrado(ctx1, 112.5, 150, 37.5, "red");
+            draw_quadrado(ctx1, 0, 120, 30, "cyan");
+            draw_quadrado(ctx1, 0, 150, 30, "cyan");
+            draw_quadrado(ctx1, 270, 135, 30, "cyan");
+
+            draw_linha(ctx1, 0, 150, 300, 150, "green", 1);
+            draw_linha(ctx1, 150, 150, 150, 300, "black", 1);
+            draw_linha(ctx1, 45, 45, 150, 150, "blue", 1);
+            draw_linha(ctx1, 300, 0, 150, 150, "red", 1);
+
+            draw_arco(ctx1, 217.5, 210, 15, Math.PI, 4 * Math.PI, "yellow", true);
+            draw_arco(ctx1, 217.5, 210, 15, Math.PI, 4 * Math.PI, "green");
+            draw_arco(ctx1, 67.5, 210, 15, Math.PI, 4 * Math.PI, "yellow", true);
+            draw_arco(ctx1, 67.5, 210, 15, Math.PI, 4 * Math.PI, "green");
+            draw_arco(ctx1, 150, 120, 15, Math.PI, 4 * Math.PI, "cyan", true);
+            draw_arco(ctx1, 150, 120, 15, Math.PI, 4 * Math.PI, "blue");
+            draw_arco(ctx1, 150, 150, 52.5, Math.PI, 2 * Math.PI, "green");
+            draw_arco(ctx1, 150, 150, 75, Math.PI, 1.25 * Math.PI, "green");
+            draw_arco(ctx1, 150, 150, 75, 1.75 * Math.PI, 2 * Math.PI, "green");
+            draw_arco(ctx1, 150, 300, 37.5, Math.PI, 2 * Math.PI, "green");
+            draw_arco(ctx1, 150, 300, 75, Math.PI, 1.5 * Math.PI, "green");
+            draw_arco(ctx1, 150, 300, 56.25, 1.5 * Math.PI, Math.PI, "green");
+            draw_arco(ctx1, 150, 300, 37.5, Math.PI, 2 * Math.PI, "cyan", true);
+
+            write(ctx1, "Canvas", 112.5, 52.5, "black", "18px");
+        }
+
+        function draw_figura2() {
+            draw_quadrado(ctx2, 0, 0, 300, "#8FFFD3");
+            draw_quadrado(ctx2, 0, 225, 300, "#7D7D7D");
+            draw_quadrado(ctx2, 0, 225, 45, "#4285F4");
+            draw_quadrado(ctx2, 0, 262.5, 135, "#4285F4");
+            draw_quadrado(ctx2, 45, 180, 18.75, "#8B4513");
+            draw_quadrado(ctx2, 45, 198, 18.75, "#8B4513");
+            draw_quadrado(ctx2, 45, 207, 18.75, "#8B4513");
+            draw_quadrado(ctx2, 247.5, 225, 18.75, "#8B4513");
+            draw_quadrado(ctx2, 247.5, 235, 18.75, "#8B4513");
+            draw_quadrado(ctx2, 247.5, 244, 18.75, "#8B4513");
+            draw_quadrado(ctx2, 120, 142.5, 78.75, "#8B4513");
+            draw_quadrado(ctx2, 120, 147.5, 78.75, "#8B4513");
+            draw_quadrado(ctx2, 127.5, 157.5, 26.25, "#4FC3FF");
+            draw_quadrado(ctx2, 165, 157.5, 26.25, "#4FC3FF");
+            draw_quadrado(ctx2, 154, 184.5, 11.25, "#5A2E0C");
+            draw_quadrado(ctx2, 154, 195, 11.25, "#5A2E0C");
+            draw_quadrado(ctx2, 154, 206, 11.25, "#5A2E0C");
+            draw_quadrado(ctx2, 154, 215, 11.25, "#5A2E0C");
+
+            draw_triangulo(ctx2, 159.4, 105, 120, 142.5, 198.75, 142.5, "#F15A42");
+
+            draw_arco(ctx2, 0, 225, 45, Math.PI, 4 * Math.PI, "#4285F4", true);
+            draw_arco(ctx2, 135, 300, 37.5, Math.PI, 4 * Math.PI, "#4285F4", true);
+            draw_arco(ctx2, 54.4, 165, 26.25, Math.PI, 4 * Math.PI, "#2E7D32", true);
+            draw_arco(ctx2, 256.9, 202.5, 26.25, Math.PI, 4 * Math.PI, "#2E7D32", true);
+            draw_arco(ctx2, 225, 75, 37.5, Math.PI, 4 * Math.PI, "#FFF733", true);
+        }
+
+        draw_figura1();
+        draw_figura2();
+    </script>
+</body>
+</html>

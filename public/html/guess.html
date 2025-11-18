@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinhação</title>
+    <link rel="stylesheet" href="/public/style/guess.css">
+</head>
+
+<body>
+    <header>
+        <nav class="menu">
+            <a href="../html/index.html">Home</a>
+            <a href="../html/projects.html">Projetos</a>
+        </nav>
+    </header>
+    
+    <div class="container" id="interfc">
+        <h1>Jogo de Adivinhação</h1>
+
+        <div id="boxResultado" class="box">
+            <p id="nmbDescoberto">?</p>
+        </div>
+
+        <p>Digite um número de <strong>0 a 99</strong> e tente adivinhar o valor</p>
+        
+        <input type="nmb" id="inputNmb" placeholder="Escreva aqui">
+        <button id="btnChute">Chutar</button>
+        <button id="btnNovo">Novo Número</button>
+        
+        <p id="result"></p>
+    </div>
+
+    <script>
+        const input = document.getElementById("inputNmb");
+        const msg = document.getElementById("result");
+        const btn = document.getElementById("btnChute");
+        const btnNovo = document.getElementById("btnNovo");
+        const game = document.getElementById("interfc");
+        const box = document.getElementById("boxResultado");
+        const numDisplay = document.getElementById("nmbDescoberto");
+        let nmbSecreto = gerarNumero();
+
+        /*Gera numero aleatorio entre 0 e 99*/
+        function gerarNumero() {
+            const n = Math.floor(Math.random() * 100);
+            console.log("Número secreto: ", n);
+            numDisplay.textContent = "?";
+            game.style.setProperty("background-color", "#ffffff");
+            msg.textContent = "";
+            return n;
+        }
+
+        btn.addEventListener("click", () => {
+            const chute = parseInt(input.value);
+
+            /*Verifica se a entrada esta certo*/
+            if (isNaN(chute) || chute < 0 || chute > 99) {
+                msg.textContent = "Digite um NÚMERO ENTRE 0 e 99!";
+                game.style.setProperty("background-color", "#ffcccc");
+                return;
+            }
+
+            /*Verificação do numero*/
+            if (chute === nmbSecreto) {
+                msg.textContent = "Você acertou!";
+                numDisplay.textContent = nmbSecreto;
+                game.style.setProperty("background-color", "#b6fcb6");
+            } else if (chute < nmbSecreto) {
+                msg.textContent = "FRIO...";
+                game.style.setProperty("background-color", "#ffb6b6");
+            } else {
+                msg.textContent = "QUENTE!";
+                game.style.setProperty("background-color", "#ffb6b6");
+            }
+
+            /*reset*/
+            input.value = "";
+            input.focus();
+        });
+        
+        btnNovo.addEventListener("click", () => {
+            nmbSecreto = gerarNumero();
+            input.value = "";
+            input.focus();
+        });
+    </script>
+</body>
+</html>

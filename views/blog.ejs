@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <nav class="menu">
+            <a href="/">Home</a>
+            <a href="/Projects.html">Projetos</a>
+            <a href="/blog" class="press">Blog</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="blog-container">
+            <div class="blog-header">
+                <h1>MEU BLOG</h1>
+                <a href="/cadastrar_post" class="btn-novo-post">+ Novo Post</a>
+            </div>
+
+            <% if (typeof erro !== 'undefined') { %>
+                <div class="erro-mensagem">
+                    ❌ <%= erro %>
+                </div>
+            <% } %>
+
+            <div class="status-info">
+                📊 Conectado ao MongoDB Atlas | 
+                <a href="/api/posts" target="_blank" style="color: #6ab7ff;">Ver API</a>
+            </div>
+
+            <div class="posts-container">
+                <% if (posts && posts.length > 0) { %>
+                    <div class="status-info">
+                        📝 Total de posts: <strong><%= posts.length %></strong>
+                    </div>
+                    
+                    <% posts.forEach(function(post) { %>
+                        <div class="post-card">
+                            <h2 class="post-titulo"><%= post.titulo %></h2>
+                            <p class="post-resumo">"<%= post.resumo %>"</p>
+                            <div class="post-conteudo">
+                                <%= post.conteudo %>
+                            </div>
+                            <div class="post-data">
+                                📅 Postado em: <%= post.dataCriacao.toLocaleDateString('pt-BR') %> 
+                                às <%= post.dataCriacao.toLocaleTimeString('pt-BR') %>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="sem-posts">
+                        <h3>📝 Nenhum post ainda</h3>
+                        <p>Seja o primeiro a compartilhar algo interessante!</p>
+                        <p><small>Posts são salvos no MongoDB Atlas (nuvem)</small></p>
+                        <a href="/cadastrar_post" class="btn-novo-post" style="margin-top: 15px;">
+                            ✨ Criar Primeiro Post
+                        </a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Aluno FEI — 2025 | Blog com MongoDB Atlas</p>
+    </footer>
+</body>
+</html>
