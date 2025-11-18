@@ -330,6 +330,197 @@ app.delete('/api/posts', async (req, res) => {
 
 //ROTAS ESTÁTICAS EXISTENTES
 
+// ===== ROTAS DO SISTEMA DE CARROS =====
+
+// Página principal do sistema de carros
+app.get('/carros', async (req, res) => {
+    try {
+        const carros = await Carro.find().sort({ marca: 1, modelo: 1 });
+        res.render('carros/index', { 
+            carros,
+            titulo: 'Carros Disponíveis'
+        });
+    } catch (error) {
+        console.error('Erro ao buscar carros:', error);
+        res.render('carros/index', { 
+            carros: [],
+            titulo: 'Carros Disponíveis',
+            erro: 'Erro ao carregar carros'
+        });
+    }
+});
+
+// Página de login (URL mais simples)
+app.get('/login-carros', (req, res) => {
+    res.render('carros/login', { erro: null });
+});
+
+// Processar login
+app.post('/login-carros', async (req, res) => {
+    try {
+        const { login, senha } = req.body;
+        const usuario = await Usuario.findOne({ login, senha });
+        
+        if (usuario) {
+            res.redirect('/gestao-carros');
+        } else {
+            res.render('carros/login', { 
+                erro: 'Login ou senha incorretos' 
+            });
+        }
+    } catch (error) {
+        res.render('carros/login', { 
+            erro: 'Erro no servidor' 
+        });
+    }
+});
+
+// Página de cadastro de usuário
+app.get('/cadastrar-usuario', (req, res) => {
+    res.render('carros/cadastrar-usuario', { erro: null, sucesso: null });
+});
+
+// Processar cadastro de usuário
+app.post('/cadastrar-usuario', async (req, res) => {
+    try {
+        const { nome, login, senha } = req.body;
+        
+        const usuarioExistente = await Usuario.findOne({ login });
+        if (usuarioExistente) {
+            return res.render('carros/cadastrar-usuario', { 
+                erro: 'Login já está em uso',
+                sucesso: null
+            });
+        }
+        
+        const novoUsuario = new Usuario({ nome, login, senha });
+        await novoUsuario.save();
+        
+        res.render('carros/cadastrar-usuario', { 
+            erro: null,
+            sucesso: 'Usuário cadastrado com sucesso!'
+        });
+    } catch (error) {
+        res.render('carros/cadastrar-usuario', { 
+            erro: 'Erro ao cadastrar usuário',
+            sucesso: null
+        });
+    }
+});
+
+// Página de gestão de carros (URL direta)
+app.get('/gestao-carros', async (req, res) => {
+    try {
+        const carros = await Carro.find().sort({ marca: 1, modelo: 1 });
+        res.render('carros/gestao', { 
+            carros,
+            sucesso: req.query.sucesso,
+            erro: req.query.erro
+        });
+    } catch (error) {
+        res.render('carros/gestao', { 
+            carros: [],
+            erro: 'Erro ao carregar carros'
+        });
+    }
+});
+
+// Página para cadastrar novo carro (URL direta)
+app.get('/novo-carro', (req, res) => {
+    res.render('carros/novo-carro', { erro: null });
+});
+
+// Processar cadastro de novo carro
+app.post('/novo-carro', async (req, res) => {
+    try {
+        const { marca, modelo, ano, qtde_disponivel } = req.body;
+        
+        const novoCarro = new Carro({
+            marca: marca.trim(),
+            modelo: modelo.trim(),
+            ano: parseInt(ano),
+            qtde_disponivel: parseInt(qtde_disponivel)
+        });
+        
+        await novoCarro.save();
+        res.redirect('/gestao-carros?sucesso=Carro cadastrado com sucesso');
+        
+    } catch (error) {
+        res.render('carros/novo-carro', { 
+            erro: 'Erro ao cadastrar carro. Verifique os dados.'
+        });
+    }
+});
+
+// Página para editar carro
+app.get('/editar-carro/:id', async (req, res) => {
+    try {
+        const carro = await Carro.findById(req.params.id);
+        if (!carro) {
+            return res.redirect('/gestao-carros?erro=Carro não encontrado');
+        }
+        res.render('carros/editar-carro', { carro, erro: null });
+    } catch (error) {
+        res.redirect('/gestao-carros?erro=Erro ao carregar carro');
+    }
+});
+
+// Processar edição de carro
+app.post('/editar-carro/:id', async (req, res) => {
+    try {
+        const { marca, modelo, ano, qtde_disponivel } = req.body;
+        
+        await Carro.findByIdAndUpdate(req.params.id, {
+            marca: marca.trim(),
+            modelo: modelo.trim(),
+            ano: parseInt(ano),
+            qtde_disponivel: parseInt(qtde_disponivel)
+        });
+        
+        res.redirect('/gestao-carros?sucesso=Carro atualizado com sucesso');
+        
+    } catch (error) {
+        res.render('carros/editar-carro', { 
+            carro: req.body,
+            erro: 'Erro ao atualizar carro'
+        });
+    }
+});
+
+// Processar venda de carro
+app.post('/vender-carro/:id', async (req, res) => {
+    try {
+        const carro = await Carro.findById(req.params.id);
+        
+        if (!carro) {
+            return res.redirect('/gestao-carros?erro=Carro não encontrado');
+        }
+        
+        if (carro.qtde_disponivel <= 0) {
+            return res.redirect('/gestao-carros?erro=Carro esgotado');
+        }
+        
+        carro.qtde_disponivel -= 1;
+        await carro.save();
+        
+        res.redirect('/gestao-carros?sucesso=Carro vendido com sucesso');
+        
+    } catch (error) {
+        res.redirect('/gestao-carros?erro=Erro ao processar venda');
+    }
+});
+
+// Processar remoção de carro
+app.post('/remover-carro/:id', async (req, res) => {
+    try {
+        await Carro.findByIdAndDelete(req.params.id);
+        res.redirect('/gestao-carros?sucesso=Carro removido com sucesso');
+    } catch (error) {
+        res.redirect('/gestao-carros?erro=Erro ao remover carro');
+    }
+});
+
+// Outras rotas existentes
 app.get('/Home.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/html/index.html'));
 });
